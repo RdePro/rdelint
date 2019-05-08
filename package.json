@@ -4,8 +4,8 @@
 	"description": "linter plugin for RDE env",
 	"repository": "https://github.com/RdePro/rdelint",
 	"publisher": "rdepro",
-	"icon": "images/icon.png",
-	"version": "0.0.1",
+	"icon": "https://haitao.nos.netease.com/b44b14f9-7075-4002-8a72-e772750c96f7_222_131.png",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.33.0"
 	},
@@ -15,6 +15,7 @@
 	"main": "./out/extension.js",
 	"contributes": {},
 	"activationEvents": [
+		"*",
 		"onLanguage:javascript",
 		"onLanguage:typescript",
 		"onLanguage:javascriptreact",

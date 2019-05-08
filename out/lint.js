@@ -23,7 +23,7 @@ class RdeLintProvider {
         vscode.workspace.onDidCloseTextDocument((textDocument) => {
             this.diagnosticCollection.delete(textDocument.uri);
         }, null, subscriptions);
-        vscode.workspace.onDidSaveTextDocument(this.doLint, this);
+        vscode.workspace.onDidSaveTextDocument(this.doLint, this, subscriptions);
         vscode.workspace.textDocuments.forEach(this.doLint, this);
     }
     dispose() {
@@ -31,27 +31,9 @@ class RdeLintProvider {
         this.diagnosticCollection.dispose();
         this.command.dispose();
     }
-    checkEnv() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield asyncExec('docker -v');
-                yield asyncExec('docker-compose -v');
-                // whether is running or not
-                yield asyncExec('docker info');
-                yield asyncExec('rde -v');
-                return true;
-            }
-            catch (e) {
-                return false;
-            }
-        });
-    }
     doLint(textDocument) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!['javascript', 'typescript', 'vue', 'javascriptreact', 'typescriptreact'].includes(textDocument.languageId)) {
-                return;
-            }
-            if (!this.checkEnv()) {
                 return;
             }
             let decoded = '';
@@ -87,12 +69,7 @@ class RdeLintProvider {
         });
     }
     provideCodeActions(document, range, context, token) {
-        let diagnostic = context.diagnostics[0];
-        return [{
-                title: "Accept rde lint suggestion",
-                command: RdeLintProvider.commandId,
-                arguments: [document, diagnostic.range, diagnostic.message]
-            }];
+        return [];
     }
     runCodeAction(document, range, message) {
         vscode.window.showErrorMessage("Nothing happened");
